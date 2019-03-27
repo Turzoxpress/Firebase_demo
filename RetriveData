@@ -1,0 +1,58 @@
+//--
+        final String saving_path = "users";
+
+        //creating the collection or table of user
+        databaseReference = FirebaseDatabase.getInstance().getReference(saving_path);
+
+
+        //--
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (snapshot.hasChild(user_id)) {
+
+                    //--
+                    DatabaseReference datarf = FirebaseDatabase.getInstance().getReference(saving_path).child(user_id);
+                    datarf.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot snapshot2) {
+
+                            GetValue gtv = snapshot2.getValue(GetValue.class);// Model class
+                           
+                            Log.d(TAG,gtv.getUser_id()+"---------------"+gtv.getUser_lat()+"----------------"+gtv.getUser_long());
+
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            Log.d(TAG,"Error! Database error");
+                           
+                        }
+                    });
+
+
+                    //-----------
+
+
+                } else {
+
+                    Log.d(TAG,"Error! Id not found!");
+                    
+                   
+
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                Log.d(TAG,"Error! Database error");
+                
+            }
+        });
+
+
+        //--------
