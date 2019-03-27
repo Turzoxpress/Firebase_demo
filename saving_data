@@ -1,0 +1,50 @@
+String saving_path = "users";
+
+        //creating the collection or table of user
+        databaseReference = FirebaseDatabase.getInstance().getReference(saving_path);
+
+
+
+        //--
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (snapshot.hasChild("childname")) {
+
+                 // Child is already exists
+
+                }else{
+
+                    //create new user
+                    StoreValue strValue = new StoreValue(num,user_name,user_lat,user_long);// model class
+                    databaseReference.child(num).setValue(strValue).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+
+                            // // User created successfully
+
+
+
+                        }
+                    })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+
+                                   // Database error
+
+
+                                }
+                            });
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+               // Dataase error
+            }
+        });
+
+        //------------
